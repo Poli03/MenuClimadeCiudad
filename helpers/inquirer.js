@@ -1,6 +1,5 @@
 require(`colors`);
 const inquirer = require(`inquirer`);
-const Tasks = require("../models/tasks");
 
 const ask = [
     {
@@ -9,15 +8,15 @@ const ask = [
         message: 'Que desea hacer?',
         choices: [
             {
-                value: '1',
+                value: 1,
                 name: `${'1.'.red} Buscar Ciudad`
             },
             {
-                value: '2',
+                value: 2,
                 name: `${'2.'.red} Historial`
             },
             {
-                value: '3',
+                value: 3,
                 name: `${'3.'.red} Salir`
             }
         ]
