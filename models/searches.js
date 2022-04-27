@@ -6,12 +6,22 @@ class Searches {
         this.history = [];
     }
 
-    async city (place =  ''){   
+    get paramsMapbox() {
+        return {
+            'language': 'es',
+            'access_token': process.env.MAPBOX_KEY
+        }
+    }
+
+    async city (place = ''){   
         try {
-            const resp = await axios.get('https://api.mapbox.com/geocoding/v5/mapbox.places/Toluca.json?language=es&access_token=pk.eyJ1IjoiaG1yMTk5NyIsImEiOiJjbDJncDRnZWQwNjVnM2ltc2Z0Mm50MTNxIn0.r_oOMgbzOqNOjmkLEzaUGA');
-            console.log(place)
+            const intance = axios.create({
+                baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json`,
+                params: this.paramsMapbox
+            });
+            const resp = await intance.get();
             console.log(resp.data);
-            return  [];
+            return[]
         }
         catch(error){
             return [];
