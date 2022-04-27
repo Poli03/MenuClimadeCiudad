@@ -1,5 +1,7 @@
-const { inquirerMenu, pause } = require("./helpers/inquirer");
+const { inquirerMenu, pause, readInput } = require("./helpers/inquirer");
+const Searches = require("./models/searches");
 
+const searches = new Searches();
 
 const main = async () =>{
 
@@ -7,7 +9,12 @@ const main = async () =>{
 
     do{
        opt = await inquirerMenu();
-
+       switch (opt) {
+           case 1:
+               const place = await readInput('Ciudad: ')
+               await searches.city(place);
+            break;
+       }
        await pause();
     }while(opt !== 3);
 
