@@ -19,15 +19,17 @@ const main = async () =>{
 
                const id = await listArray(places);
                const placeSel= places.find( l => l.id === id);
-            
+
+               const weather = await searches.weatherPlace(placeSel.lat, placeSel.lng)
+               console.clear();
                console.log('\nInformación de la ciudad\n'.green);
                 console.log('Ciudad:', placeSel.name.green  );
                 console.log('Lat:',  placeSel.lat);
                 console.log('Lng:', placeSel.lng);
-                console.log('Temperatura:');
-                console.log('Mínima:' );
-                console.log('Máxima:' );
-                console.log('Como está el clima:' );
+                console.log('Temperatura:', weather.temp);
+                console.log('Mínima:',weather.max );
+                console.log('Máxima:',weather.max );
+                console.log('Como está el clima:',weather.desc.green );
             break;
        }
        
