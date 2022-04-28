@@ -13,6 +13,13 @@ class Searches {
         }
     }
 
+    get paramsOPENWeather() {
+        return {
+            'language': 'es',
+            'access_token': process.env.MAPBOX_KEY
+        }
+    }
+
     async city (place = ''){   
         try {
             const intance = axios.create({
@@ -20,11 +27,24 @@ class Searches {
                 params: this.paramsMapbox
             });
             const resp = await intance.get();
-            console.log(resp.data);
-            return[]
+            return resp.data.features.map( place => ({
+                id: place.id,
+                name: place.place_name,
+                lng: place.center[0],
+                lat: place.center[1]
+            }));
         }
         catch(error){
             return [];
+        }
+    }
+
+    async weatherPlace (lat,lgt){
+        try {
+            
+        } catch (error) {
+            console.log(error);
+            
         }
     }
 
