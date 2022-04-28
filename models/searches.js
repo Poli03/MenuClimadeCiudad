@@ -1,9 +1,12 @@
+const fs = require('fs');
 const axios = require('axios');
 
 
 class Searches {
     constructor(){
         this.history = [];
+        this.dbPath= './db/database.json';
+        this.readDB();
     }
 
     get paramsMapbox() {
@@ -19,6 +22,17 @@ class Searches {
             units:'metric',
             lang:'es'
         }
+    }
+
+    get historyCapitalized() {
+        return this.history.map( place => {
+
+            let words = place.split(' ');
+            words = words.map( p => p[0].toUpperCase() + p.substring(1) );
+
+            return words.join(' ')
+
+        })
     }
 
     async city (place = ''){   
@@ -59,6 +73,38 @@ class Searches {
         }
     }
 
+    addhistory(place = ''){
+        if( this.history.includes( place.toLocaleLowerCase() ) ){
+            return;
+        }
+        this.history = this.history.splice(0,5);
+
+        this.history.unshift(place.toLocaleLowerCase());
+
+        this.saveDB();
+    }
+
+    saveDB() {
+
+        const payload = {
+            history: this.history
+        };
+
+        fs.writeFileSync( this.dbPath, JSON.stringify( payload ) );
+
+    }
+
+    readDB() {
+
+        if( !fs.existsSync( this.dbPath ) ) return;
+        
+        const info = fs.readFileSync( this.dbPath, { encoding: 'utf-8' });
+        const data = JSON.parse( info );
+
+        this.history = data.history;
+
+
+    }
 }
 
 module.exports = Searches;
